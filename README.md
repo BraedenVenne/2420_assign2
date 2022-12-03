@@ -163,7 +163,7 @@ Example Output: <br>
 sudo mv caddy.service /etc/systemd/system
 ```
 Example Output: <br>
-![mv caddy.service](images/mv-caddy.service.PNG)
+![mv caddy.service](images/mv-caddy-service.PNG)
 
 **Repeat steps 3, 4, and 5 on both droplets!**
 
