@@ -118,7 +118,7 @@ rsync -r as2 "braeden@128.199.7.198:~/" -e "ssh - i /home/braeden/.ssh/DO2_key -
 Example Output: <br>
 ![Picture of rsync](images/s4-move-files.PNG)
 
-## Creating a Caddfile
+## Creating a Caddyfile
 1. On your **WSL** create a file called **Caddyfile** with the following contents
 ```
 http:// {
@@ -195,4 +195,93 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
+2. Transfer **hello_web.service** to you DigitalOcean droplets
+```
+rsync hello_web.service.service "braeden@128.199.7.198:~/" -e "ssh -i /home/braeden/.ssh/DO2_key -o StrictHostKeyChecking=no" 
+```
+
+3. Move **hello_web.service** to **/etc/systemd/system**
+```
+sudo mv hello_web.service /etc/systemd/system
+```
+
+## Setting up the Service files
+1. Before starting the services make changes to **index.html** and **index.js** so they are slightly different from each other on each server
+
+e.g For server 1
+
+index.html
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 2</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <h2>Welcome to Server 1!</h2>
+    <p>Look behind you ;)</p>
+</body>
+</html>
+```
+
+index.js
+```
+// Require the framework and instantiate it
+const fastify = require('fastify')({ logger: true })
+
+// Declare a route
+fastify.get('/api', async (request, reply) => {
+  return { hello: 'Server 1' }
+})
+
+// Run the server!
+const start = async () => {
+  try {
+    await fastify.listen({ port: 5050 })
+  } catch (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+}
+start()
+```
+
+2. Move **hello_web.service** to **/etc/systemd/system**
+```
+sudo mv hello_web.service /etc/systemd/system
+```
+
+3. Activate **hello_web.service** by running the following
+```
+sudo systemctl daemon-reload
+sudo systemctl start hello_web.service
+sudo systemctl enable hello_web.service
+```
+
+Example Output: <br>
+![picture of hello_web.service status](images/hello-web-status.PNG)
+
+4. Activate **caddy.service** by running the following
+```
+sudo systemctl daemon-reload
+sudo systemctl start caddy.service
+sudo systemctl enable caddy.service
+```
+
+Example Output: <br>
+![picture of caddy.service status](images/caddy-status.PNG)
+
+5. Check the load-balancer IP address to see that everything is working
+
+Server 1
+![picture of server1](images/serv1-app.PNG)
+![picture of server1 with /api](serv1-api.PNG)
+
+Server 2
+![picture of server1](images/serv2-app.PNG)
+![picture of server1 with /api](serv2-api.PNG)
 
