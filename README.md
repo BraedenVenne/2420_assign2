@@ -278,10 +278,10 @@ Example Output: <br>
 5. Check the load-balancer IP address to see that everything is working
 
 Server 1
-![picture of server1](images/serv1-app.PNG)
-![picture of server1 with /api](serv1-api.PNG)
+![picture of server1 p1](images/serv1-app.PNG)
+![picture of server1 p2](images/serv1-api.PNG)
 
 Server 2
-![picture of server1](images/serv2-app.PNG)
-![picture of server1 with /api](serv2-api.PNG)
+![picture of server1 p1](images/serv2-app.PNG)
+![picture of server1 p2](images/serv2-api.PNG)
 
