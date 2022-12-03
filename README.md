@@ -197,7 +197,7 @@ WantedBy=multi-user.target
 
 2. Transfer **hello_web.service** to you DigitalOcean droplets
 ```
-rsync hello_web.service.service "braeden@128.199.7.198:~/" -e "ssh -i /home/braeden/.ssh/DO2_key -o StrictHostKeyChecking=no" 
+rsync hello_web.service "braeden@128.199.7.198:~/" -e "ssh -i /home/braeden/.ssh/DO2_key -o StrictHostKeyChecking=no" 
 ```
 
 3. Move **hello_web.service** to **/etc/systemd/system**
