@@ -175,5 +175,5 @@ source ~/.bashrc
 volta install node
 ```
 Example Output: <br>
-![picture of node installation with Volta](images/s6-install-node-Volta)
+![picture of node installation with Volta](images/s6-install-node-Volta.PNG)
 
