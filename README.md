@@ -275,7 +275,7 @@ sudo systemctl enable caddy.service
 Example Output: <br>
 ![picture of caddy.service status](images/caddy-status.PNG)
 
-## Check the load-balancer IP address to see that everything is working
+5. Check the load-balancer IP address to see that everything is working
 
 **Server 1** <br>
 ![picture of server1 p1](images/serv1-app.PNG)
