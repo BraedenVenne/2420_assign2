@@ -1,0 +1,13 @@
+[Unit]
+Description=Service file to start node application
+After=network.target
+
+[Service]
+Type=simple
+User=braeden
+Group=braeden
+ExecStart=/home/braeden/.volta/bin/node /var/www/src/index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
