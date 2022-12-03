@@ -110,11 +110,70 @@ start()
 ```
 7. Move the files to your servers
 ```
-rsync-r as2 "braeden@128.199.7.198:~/" -e "ssh - i /home/braeden/.ssh/DO2_key -o StrictHostKeyChecking=no"
+rsync -r as2 "braeden@128.199.7.198:~/" -e "ssh - i /home/braeden/.ssh/DO2_key -o StrictHostKeyChecking=no"
 ```
 
 **Repeat this step for both servers!**
 
 Example Output: <br>
 ![Picture of rsync](images/s4-move-files.PNG)
+
+## Creating a Caddfile
+1. On your **WSL** create a file called **Caddyfile** with the following contents
+```
+http:// {
+        root * /var/www
+        reverse_proxy /api localhost:5050
+        file_server
+}
+```
+2. On your **WSL** create a file called **caddy.service** with the following contents
+```
+[Unit]
+Description=Serve HTML in /var/www using caddy
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/caddy run --config /etc/caddy/Caddyfile
+ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile
+TimeoutStopSec=5
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+```
+
+3. Transfer **Caddyfile** and **caddy.service** to your servers
+```
+rsync Caddyfile caddy.service "braeden@128.199.7.198:~/" -e "ssh -i /home/braeden/.ssh/DO2_key -o StrictHostKeyChecking=no" 
+```
+Example Output: <br>
+![picture of file transfer](images/s5-transfer-caddyfile.PNG)
+
+4. Move **Caddyfile** to **/etc/caddy**
+```
+sudo mv Caddyfile /etc/caddy
+```
+Example Output: <br>
+![mv caddyfile](images/s5-mv-caddyfile.PNG)
+
+5. Move **caddy.service** to **/etc/systemd/system**
+```
+sudo mv caddy.service /etc/systemd/system
+```
+Example Output: <br>
+![mv caddy.service](images/mv-caddy-service.PNG)
+
+**Repeat steps 3, 4, and 5 on both droplets!**
+
+## Installing node and npm with Volta
+1. On your DigitalOcean droplets run the following commands
+```
+curl https://get.volta.sh | bash
+source ~/.bashrc
+volta install node
+```
+Example Output: <br>
+![picture of node installation with Volta](images/s6-install-node-Volta.PNG)
 
