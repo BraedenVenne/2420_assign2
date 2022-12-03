@@ -122,7 +122,7 @@ Example Output: <br>
 1. On your **WSL** create a file called **Caddyfile** with the following contents
 ```
 http:// {
-        root * /var/www
+        root * /var/www/html
         reverse_proxy /api localhost:5050
         file_server
 }
@@ -176,4 +176,23 @@ volta install node
 ```
 Example Output: <br>
 ![picture of node installation with Volta](images/s6-install-node-Volta.PNG)
+
+## Creating a Service File to Start You Node Application
+1. On your **WSL** create a file called **hello_web.service** with the following contents
+```
+[Unit]
+Description=Service file to start node application
+After=network.target
+
+[Service]
+Type=simple
+User=braeden
+Group=braeden
+ExecStart=/home/braeden/.volta/bin/node /var/www/src/index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
 
